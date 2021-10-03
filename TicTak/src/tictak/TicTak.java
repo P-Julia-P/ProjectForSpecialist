@@ -1,14 +1,11 @@
-
 package tictak;
-/**
- *
- * @author JuliaParpulova
- */
+
 public class TicTak {
     static int num=20;
 
     public static void main(String[] args) {
-        Object monitor = new Object();
+
+        Mon monitor = new Mon();
         ThreadOne thr1 = new ThreadOne (monitor);
         ThreadTwo thr2 = new ThreadTwo (monitor);
         ThreadThree thr3 = new ThreadThree(monitor);
@@ -21,6 +18,13 @@ public class TicTak {
             thr1.join();
             thr2.getThread().join();
             thr3.getThread().join();
-        }catch (InterruptedException e) { e.printStackTrace();}
+        }
+        catch (InterruptedException e) { e.printStackTrace();}
     }
+   
 } 
+    
+    
+class Mon{
+   public int c;
+}

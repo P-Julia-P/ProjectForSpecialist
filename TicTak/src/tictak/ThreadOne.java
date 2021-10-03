@@ -1,22 +1,28 @@
 package tictak;
-/**
- *
- * @author JuliaParpulova
- */
-public class ThreadOne extends Thread {
-    private Object monitor;
 
-    public ThreadOne(Object m) {
+public class ThreadOne extends Thread {
+  private Mon monitor;
+
+    public ThreadOne(Mon m) {
     monitor = m;
     }
 
+
+  @Override
     public void run () {
-        try {
+        try { 
             for (int i = 0; i < TicTak.num; i++) {
-                System.out.print(1+" - ");
                 synchronized (monitor){ 
-                    monitor.notifyAll();
-                    if(i<TicTak.num-1) monitor.wait();
+                    
+                  if (monitor.c ==1 || monitor.c ==2)
+                      monitor.wait();
+                  if(monitor.c==0) {
+                        System.out.print(1+" - ");
+                        monitor.c=1; 
+                        monitor.notifyAll();
+                        if(i<TicTak.num-1)
+                            monitor.wait();
+                  }
                 }
             }
         } catch (InterruptedException e) { e.printStackTrace(); }

@@ -1,33 +1,37 @@
 package tictak;
-/**
- *
- * @author JuliaParpulova
- */
+
 public class ThreadTwo implements Runnable {
     private Thread thread;
-    private Object monitor;
+    private Mon monitor;
+
     
     public Thread getThread () {
         return thread;
     }
 
-    public ThreadTwo(Object m) {
+    public ThreadTwo(Mon m) {
         thread = new Thread (this);
         monitor = m;
     }
-    
+
+    @Override
     public void run() {
         try {
-            Thread.sleep(1);
             for (int i = 0; i < TicTak.num; i++) {
-                System.out.print(2 + " - ");
-
-                synchronized(monitor){ 
-                    monitor.notifyAll();
-                    if(i<TicTak.num-1)
+                synchronized(monitor){     
+                    
+                    if (monitor.c ==0 || monitor.c ==2) 
                         monitor.wait();
+                    if (monitor.c==1) {
+                        System.out.print(2 + " - ");
+                        monitor.c = 2; 
+                        monitor.notifyAll();
+                        if(i<TicTak.num-1)
+                            monitor.wait();
+                    }
                 }
             }
-        }catch (InterruptedException e) { e.printStackTrace(); }
+        }
+        catch (InterruptedException e) { e.printStackTrace(); }
     }
 }
